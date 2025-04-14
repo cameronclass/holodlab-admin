@@ -7,7 +7,7 @@
 -   PHP 8.1 или выше
 -   Composer
 -   Git
--   MySQL или PostgreSQL
+-   MySQL или PostgreSQL (для хранения данных и кэша)
 -   SSH доступ
 
 ### 1.2. Подготовка SSH доступа
