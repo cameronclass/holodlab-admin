@@ -58,7 +58,12 @@ class CategoryResource extends Resource
                             ->panelLayout('integrated')
                             ->removeUploadedFileButtonPosition('right')
                             ->uploadButtonPosition('left')
-                            ->uploadProgressIndicatorPosition('left'),
+                            ->uploadProgressIndicatorPosition('left')
+                            ->visibility('public')
+                            ->imageEditor()
+                            ->openable()
+                            ->downloadable()
+                            ->deletable(),
                     ])
             ]);
     }
