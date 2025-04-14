@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cache;
 use App\Models\User;
+use App\Models\Category;
 
 class CacheServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,7 @@ class CacheServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Наблюдатель для пользователей
         User::observe(new class {
             public function saved($model)
             {
@@ -26,6 +28,23 @@ class CacheServiceProvider extends ServiceProvider
             {
                 Cache::forget('users_count');
                 Cache::forget('admins_count');
+            }
+        });
+
+        // Наблюдатель для категорий
+        Category::observe(new class {
+            public function saved($model)
+            {
+                Cache::forget('categories_list');
+                Cache::forget('categories_count');
+                Cache::forget('api_categories');
+            }
+
+            public function deleted($model)
+            {
+                Cache::forget('categories_list');
+                Cache::forget('categories_count');
+                Cache::forget('api_categories');
             }
         });
     }

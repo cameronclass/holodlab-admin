@@ -3,13 +3,13 @@
 namespace App\Providers\Filament;
 
 use Filament\Http\Middleware\Authenticate;
-use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Navigation\NavigationGroup;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -28,17 +28,19 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->darkMode(true)
-            ->colors([
-                'primary' => Color::Blue,
-                'secondary' => Color::Gray,
-                'danger' => Color::Rose,
-                'info' => Color::Sky,
-                'success' => Color::Emerald,
-                'warning' => Color::Orange,
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Каталог'),
+                NavigationGroup::make()
+                    ->label('Настройки')
+                    ->collapsed(),
             ])
-            ->brandName('HolodLab Admin')
-            ->favicon(null)
+            ->sidebarFullyCollapsibleOnDesktop(true)
+            ->sidebarCollapsibleOnDesktop(true)
+            ->topNavigation(false)
+            ->colors([
+                'primary' => Color::Amber,
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -60,14 +62,8 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->plugins([
-                FilamentShieldPlugin::make(),
-            ])
             ->authMiddleware([
                 Authenticate::class,
-            ])
-            ->topNavigation()
-            ->maxContentWidth('full')
-            ->sidebarCollapsibleOnDesktop();
+            ]);
     }
 }

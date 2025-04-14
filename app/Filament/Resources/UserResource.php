@@ -16,8 +16,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationGroup = 'Настройки';
+    protected static ?string $navigationLabel = 'Пользователи';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -25,18 +27,22 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
+                    ->label('Имя')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                Forms\Components\DateTimePicker::make('email_verified_at')
+                    ->label('Email подтвержден'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Пароль'),
                 Forms\Components\Toggle::make('is_admin')
-                    ->required(),
+                    ->required()
+                    ->label('Администратор'),
             ]);
     }
 
@@ -45,6 +51,7 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Имя')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
@@ -52,8 +59,10 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_admin')
+                    ->label('Администратор')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Создан')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
