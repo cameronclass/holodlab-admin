@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cache;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Project;
 
 class CacheServiceProvider extends ServiceProvider
 {
@@ -45,6 +46,19 @@ class CacheServiceProvider extends ServiceProvider
                 Cache::forget('categories_list');
                 Cache::forget('categories_count');
                 Cache::forget('api_categories');
+            }
+        });
+
+        // Наблюдатель для проектов
+        Project::observe(new class {
+            public function saved($model)
+            {
+                Cache::forget('api_projects');
+            }
+
+            public function deleted($model)
+            {
+                Cache::forget('api_projects');
             }
         });
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -16,7 +17,7 @@ class CategoryController extends Controller
                 ->get()
                 ->map(function ($category) {
                     if ($category->image_path) {
-                        $category->image_path = asset('storage/categories/' . $category->image_path);
+                        $category->image_path = Storage::disk('categories')->url($category->image_path);
                     }
                     return $category;
                 });
