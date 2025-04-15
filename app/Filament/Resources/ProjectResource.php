@@ -13,6 +13,8 @@ use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
 
 class ProjectResource extends Resource
 {
@@ -91,6 +93,10 @@ class ProjectResource extends Resource
                     ->label('Создано')
                     ->dateTime('d.m.Y H:i')
                     ->sortable(),
+            ])
+            ->actions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->defaultSort('created_at', 'desc');
     }
