@@ -19,6 +19,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Resources\FaqResource;
+use App\Filament\Resources\ProductResource;
 
 class AdminPanelProvider extends PanelProvider
 {
